@@ -4,6 +4,16 @@ name: CI
 on:
   repository_dispatch:
     types: [test_result]
+  workflow_dispatch:
+    inputs:
+      passed: 
+        description: 'did the test pass'
+        type: boolean
+        required: true
+      message:
+        description: 'message if failure'
+        type: string
+        required: false
 
 jobs:
   run_if_failure:
@@ -12,4 +22,11 @@ jobs:
     steps:
       - env:
           MESSAGE: ${{ github.event.client_payload.message }}
+        run: echo $MESSAGE
+  run_if_dispatch_failure:
+    if: ${{ !github.event.inputs.passed }}
+    runs-on: ubuntu-latest
+    steps:
+      - env:
+          MESSAGE: ${{ github.event.inputs.message }}
         run: echo $MESSAGE
