@@ -17,16 +17,16 @@ on:
 
 jobs:
   run_if_failure:
-    if: ${{ !github.event.client_payload.passed }}
+    if: ${{ github.event.repository_dispatch && !github.event.client_payload.passed }}
     runs-on: ubuntu-latest
     steps:
       - env:
           MESSAGE: ${{ github.event.client_payload.message }}
         run: echo $MESSAGE
   run_if_dispatch_failure:
-    if: ${{ !github.event.inputs.passed }}
+    if: ${{ !github.inputs.passed }}
     runs-on: ubuntu-latest
     steps:
       - env:
-          MESSAGE: ${{ github.event.inputs.message }}
+          MESSAGE: ${{ github.inputs.message }}
         run: echo $MESSAGE
