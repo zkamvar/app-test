@@ -24,9 +24,9 @@ jobs:
           MESSAGE: ${{ github.event.client_payload.message }}
         run: echo $MESSAGE
   run_if_dispatch_failure:
-    if: ${{ !github.inputs.passed }}
+    if: ${{ github.event.workflow_dispatch && !inputs.passed }}
     runs-on: ubuntu-latest
     steps:
       - env:
-          MESSAGE: ${{ github.inputs.message }}
+          MESSAGE: ${{ inputs.message }}
         run: echo $MESSAGE
