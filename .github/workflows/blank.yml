@@ -17,14 +17,14 @@ on:
 
 jobs:
   run_if_failure:
-    if: ${{ github.event.repository_dispatch && !github.event.client_payload.passed }}
+    if: ${{ github.event_name == "repository_dispatch" && !github.event.client_payload.passed }}
     runs-on: ubuntu-latest
     steps:
       - env:
           MESSAGE: ${{ github.event.client_payload.message }}
         run: echo $MESSAGE
   run_if_dispatch_failure:
-    if: ${{ github.event.workflow_dispatch && !inputs.passed }}
+    if: ${{ github.event_name == "workflow_dispatch" && !inputs.passed }}
     runs-on: ubuntu-latest
     steps:
       - env:
